@@ -2,7 +2,7 @@ import random
 
 from sopel import module
 
-meows = ["喵"]
+meows = ["喵", "猫･ﾟ「にゃあああー」", "(^=◕ᴥ◕=^)"]
 
 
 @module.commands("meow")
