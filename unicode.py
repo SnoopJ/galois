@@ -17,7 +17,14 @@ def _describe_char(bot, char):
 
 @module.commands("u", "unicode")
 def unicode_summarize(bot, trigger):
-    s = "".join(cmd for cmd in trigger.groups()[1] if cmd)
+    s = "".join(cmd for cmd in trigger.groups()[2] if cmd)
+
+    prefix, rest = s[:2].lower(), s[2:]
+    if prefix in ("u+", "0x", r"\u"):
+        codept = int(rest.strip(), base=16)
+        _describe_char(bot, chr(codept))
+        return True
+
     if trigger.sender != "#kspacademia" and len(s) > MAX_LEN:
         bot.say(f"Whoa now, that's too many characters, hoss (max {MAX_LEN})")
         return False
