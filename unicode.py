@@ -1,5 +1,5 @@
 import itertools
-import unicodedata
+import unicodedata2 as unicodedata
 
 from sopel import module
 
