@@ -6,7 +6,7 @@ from sopel import module
 responses = ["yes", "no"]
 
 
-@module.commands("8")
+@module.commands("8", "8ball")
 @module.example("!8 is this the real life?")
 def howmany(bot, trigger):
     """ Ask the bot a yes or no question """
