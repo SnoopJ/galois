@@ -19,7 +19,7 @@ def _describe_char(bot, char):
 def unicode_summarize(bot, trigger):
     s = "".join(cmd for cmd in trigger.groups()[1] if cmd)
     if trigger.sender != "#kspacademia" and len(s) > MAX_LEN:
-        bot.say(f"Whoa now, that's too many characters, hoss (max {MAX_LEN_SUMMARIZE}")
+        bot.say(f"Whoa now, that's too many characters, hoss (max {MAX_LEN})")
         return False
 
     for c in s:
