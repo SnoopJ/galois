@@ -8,7 +8,7 @@ MAX_LEN = 16
 
 def _describe_char(bot, char):
     try:
-        bot.say(f"{char}: U+{ord(char):0>4x} {unicodedata.name(char)}")
+        bot.say(f"{char}: U+{ord(char):0>4x} ({unicodedata.category(char)}) {unicodedata.name(char)}")
     except ValueError:
         bot.say(
             f"No info for U+{ord(char):0>4x} (I only know about Unicode up to {unicodedata.unidata_version})"
