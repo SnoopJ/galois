@@ -1,4 +1,5 @@
 import itertools
+import sys
 import unicodedata2 as unicodedata
 
 from sopel import module
@@ -13,6 +14,53 @@ def _describe_char(bot, char):
         bot.say(
             f"No info for U+{ord(char):0>5x} in Unicode {unicodedata.unidata_version}"
         )
+
+
+NAME_TO_CODEPOINT = {unicodedata.name(chr(n), ''): n for n in range(sys.maxunicode)}
+NAME_TO_CODEPOINT.pop('')
+
+
+# TODO: !u:no-latin Brünner Männergesangverein → ü: U+00fc LATIN SMALL LETTER U WITH DIAERESIS
+@module.rule(r"u:\w+")
+def unicode_query(bot, trigger):
+    MAX_MATCHES = 10
+    NUM_PUBLIC_MATCHES = 2
+
+    cmd, *rest = trigger.groups()[1:]
+    query = " ".join(word for word in rest if word)
+
+    *_, subcmd = cmd.partition(":")
+
+    if subcmd == "search":
+        # TODO: is it silly to recombine the query above, then split() it again? it might be silly.
+        matches = [(name, codepoint) for (name, codepoint) in NAME_TO_CODEPOINT.items() if all(term.casefold() in name.casefold() for term in query.split())]
+        N_match = len(matches)
+        if N_match == 0:
+            bot.say("No results")
+            return False
+        elif N_match > MAX_MATCHES:
+            bot.say(f"Maximum number of results ({MAX_MATCHES}) exceeded, got {N_match}, giving up")
+            return False
+        else:
+            bot.say(f"{N_match} results:")
+
+        names, codepoints = zip(*matches)
+
+        def _say_matches(matches: list[tuple[str, int]], dest=None):
+            for (name, codepoint) in matches:
+                bot.say(f"U+{codepoint:06x} {name}", destination=dest)
+
+        if trigger.sender.is_nick():
+            _say_matches(matches)
+        else:
+            _say_matches(matches[:NUM_PUBLIC_MATCHES])
+
+            N_excess = N_match - NUM_PUBLIC_MATCHES
+            if N_excess > 0:
+                bot.say(f"{N_excess} other results, sending you the full list in PM")
+                _say_matches(matches, dest=trigger.nick)
+    else:
+        bot.say("Unknown subcommand, known: search <terms>")
 
 
 @module.commands("u", "unicode")
