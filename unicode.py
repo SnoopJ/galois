@@ -25,7 +25,8 @@ def unicode_summarize(bot, trigger):
         _describe_char(bot, chr(codept))
         return True
 
-    if trigger.sender != "#kspacademia" and len(s) > MAX_LEN:
+    len_overrides = {"#kspacademia"}
+    if trigger.sender.is_channel() and trigger.sender not in len_overrides and len(s) > MAX_LEN:
         bot.say(f"Whoa now, that's too many characters, hoss (max {MAX_LEN})")
         return False
 
