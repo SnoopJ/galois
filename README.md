@@ -1,4 +1,4 @@
 # galois
 
-A handful of extensions to the IRC chatbot [Sopel](https://github.com/sopel-irc/)
+A handful of customizations for the IRC chatbot [Sopel](https://sopel.chat/)
 
