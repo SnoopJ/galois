@@ -4,16 +4,8 @@ import unicodedata2 as unicodedata
 
 from sopel import module
 
+
 MAX_LEN = 16
-
-
-def _describe_char(bot, char):
-    try:
-        bot.say(f"{char}: U+{ord(char):0>6x} ({unicodedata.category(char)}) {unicodedata.name(char)}")
-    except ValueError:
-        bot.say(
-            f"No info for U+{ord(char):0>5x} in Unicode {unicodedata.unidata_version}"
-        )
 
 
 NAME_TO_CODEPOINT = {unicodedata.name(chr(n), ''): n for n in range(sys.maxunicode)}
@@ -58,6 +50,13 @@ def search_subcmd(bot, trigger):
             _say_matches(matches, dest=trigger.nick)
 
 
+def _describe_char(bot, char):
+    try:
+        bot.say(f"{char}: U+{ord(char):0>6x} ({unicodedata.category(char)}) {unicodedata.name(char)}")
+    except ValueError:
+        bot.say(
+            f"No info for U+{ord(char):0>5x} in Unicode {unicodedata.unidata_version}"
+        )
 
 
 @module.commands("u", "unicode")
