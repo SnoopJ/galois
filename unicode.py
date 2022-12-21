@@ -55,7 +55,7 @@ def _describe_char(bot, char):
         bot.say(f"{char}: U+{ord(char):0>6x} ({unicodedata.category(char)}) {unicodedata.name(char)}")
     except ValueError:
         bot.say(
-            f"No info for U+{ord(char):0>5x} in Unicode {unicodedata.unidata_version}"
+            f"No info for U+{ord(char):0>6x} in Unicode {unicodedata.unidata_version}"
         )
 
 
