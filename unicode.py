@@ -37,7 +37,7 @@ def search_subcmd(bot, trigger):
 
     def _say_matches(matches: list[tuple[str, int]], dest=None):
         for (name, codepoint) in matches:
-            bot.say(f"{chr(codepoint)} U+{codepoint:06x} {name}", destination=dest)
+            bot.say(f"{chr(codepoint)} U+{codepoint:04x} {name}", destination=dest)
 
     if trigger.sender.is_nick():
         _say_matches(matches)
@@ -52,10 +52,10 @@ def search_subcmd(bot, trigger):
 
 def _describe_char(bot, char):
     try:
-        bot.say(f"{char}: U+{ord(char):0>6x} ({unicodedata.category(char)}) {unicodedata.name(char)}")
+        bot.say(f"{char}: U+{ord(char):0>4x} ({unicodedata.category(char)}) {unicodedata.name(char)}")
     except ValueError:
         bot.say(
-            f"No info for U+{ord(char):0>6x} in Unicode {unicodedata.unidata_version}"
+            f"No info for U+{ord(char):0>4x} in Unicode {unicodedata.unidata_version}"
         )
 
 
