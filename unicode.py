@@ -52,13 +52,19 @@ def search_subcmd(bot, trigger):
             _say_matches(matches, dest=trigger.nick)
 
 
-def _describe_char(bot, char):
+def _describe_char(char: str) -> str:
+    codept = ord(char)
     try:
-        bot.say(f"{char}: U+{ord(char):0>4x} ({unicodedata.category(char)}) {unicodedata.name(char)}")
+        import unicode_age  # https://pypi.org/project/unicode-age/
+        major, minor = unicode_age.version(codept)
+        ver_str = f"v{major}.{minor} "
+    except:
+        ver_str = ""
+
+    try:
+        return f"{char}: U+{codept:0>4x} {ver_str}({unicodedata.category(char)}) {unicodedata.name(char)}"
     except ValueError:
-        bot.say(
-            f"No info for U+{ord(char):0>4x} in Unicode {unicodedata.unidata_version}"
-        )
+        return f"No info for U+{codept:0>4x} in Unicode {unicodedata.unidata_version}"
 
 
 @plugin.commands("u", "unicode")
@@ -68,7 +74,8 @@ def unicode_summarize(bot, trigger):
     prefix, rest = s[:2].lower(), s[2:]
     if prefix in ("u+", "0x", r"\u"):
         codept = int(rest.strip(), base=16)
-        _describe_char(bot, chr(codept))
+        msg = _describe_char(chr(codept))
+        bot.say(msg)
         return True
 
     len_overrides = {"#kspacademia"}
@@ -77,7 +84,8 @@ def unicode_summarize(bot, trigger):
         return False
 
     for c in s:
-        _describe_char(bot, c)
+        msg = _describe_char(c)
+        bot.say(msg)
 
 
 @plugin.commands("decompose")
@@ -102,4 +110,5 @@ def normalized_forms(bot, trigger):
         return False
 
     for char in normalized:
-        _describe_char(bot, char)
+        msg = _describe_char(char)
+        bot.say(msg)
