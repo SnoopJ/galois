@@ -1,5 +1,7 @@
 import itertools
 import sys
+from typing import List, Tuple
+
 import unicodedata2 as unicodedata
 
 from sopel import module
@@ -35,7 +37,7 @@ def search_subcmd(bot, trigger):
 
     names, codepoints = zip(*matches)
 
-    def _say_matches(matches: list[tuple[str, int]], dest=None):
+    def _say_matches(matches: List[Tuple[str, int]], dest=None):
         for (name, codepoint) in matches:
             bot.say(f"{chr(codepoint)} U+{codepoint:04x} {name}", destination=dest)
 
