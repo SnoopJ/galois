@@ -9,7 +9,6 @@ from sopel import module
 
 MAX_LEN = 16
 
-
 NAME_TO_CODEPOINT = {unicodedata.name(chr(n), ''): n for n in range(sys.maxunicode)}
 NAME_TO_CODEPOINT.pop('')
 
@@ -22,6 +21,7 @@ def search_subcmd(bot, trigger):
 
     cmd, *rest = trigger.groups()[1:]
     query = " ".join(word for word in rest if word)
+    is_channel = trigger.sender and not trigger.sender.is_nick()
 
     # TODO: is it silly to recombine the query above, then split() it again? it might be silly.
     matches = [(name, codepoint) for (name, codepoint) in NAME_TO_CODEPOINT.items() if all(term.casefold() in name.casefold() for term in query.split())]
@@ -29,7 +29,7 @@ def search_subcmd(bot, trigger):
     if N_match == 0:
         bot.say("No results")
         return False
-    elif N_match > MAX_MATCHES:
+    elif is_channel and N_match > MAX_MATCHES:
         bot.say(f"Maximum number of results ({MAX_MATCHES}) exceeded, got {N_match}, giving up")
         return False
     else:
