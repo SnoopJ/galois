@@ -13,7 +13,6 @@ NAME_TO_CODEPOINT = {unicodedata.name(chr(n), ''): n for n in range(sys.maxunico
 NAME_TO_CODEPOINT.pop('')
 
 
-# TODO: !u:no-latin Brünner Männergesangverein → ü: U+00fc LATIN SMALL LETTER U WITH DIAERESIS
 @plugin.commands(r"u:search")
 def search_subcmd(bot, trigger):
     MAX_MATCHES = 10
@@ -67,9 +66,13 @@ def _describe_char(char: str) -> str:
         return f"No info for U+{codept:0>4x} in Unicode {unicodedata.unidata_version}"
 
 
-@plugin.commands("u", "unicode")
+@plugin.commands("u(:no-ascii)?")
 def unicode_summarize(bot, trigger):
-    s = "".join(cmd for cmd in trigger.groups()[2] if cmd)
+    s = trigger.group(3)
+
+    no_ascii = trigger.group(2) is not None
+    if no_ascii:
+        s = "".join(c for c in s if ord(c) not in range(128))
 
     prefix, rest = s[:2].lower(), s[2:]
     if prefix in ("u+", "0x", r"\u"):
