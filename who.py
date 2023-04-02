@@ -1,10 +1,10 @@
 import random
 import re
 
-from sopel import module
+from sopel import plugin
 
 
-@module.commands("who", "whose")
+@plugin.commands("who", "whose")
 def who(bot, trigger):
     """ Choose from users in this channel """
     # Ideally this should use bot.channels[trigger.sender].users, but it

@@ -1,4 +1,4 @@
-from sopel import module
+from sopel import plugin
 
 from dataclasses import dataclass
 from datetime import date
@@ -56,7 +56,7 @@ def weather():
     return _weather(date.today())
 
 
-@module.commands("mars\s*(insight|curiosity|perseverance)")
+@plugin.commands("mars\s*(insight|curiosity|perseverance)")
 def mars_weather(bot, trigger):
     if trigger.group(2) == "insight":
         insight_weather(bot, trigger)

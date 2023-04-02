@@ -4,7 +4,7 @@ import os
 import pprint
 
 import requests
-from sopel import module
+from sopel import plugin
 
 
 def setup(self):
@@ -18,8 +18,8 @@ def setup(self):
             self.memory["acrs"] = {}
 
 
-@module.commands("acr")
-@module.example("!acr LOL, !acr -add:SWaG Survey of Water and Ammonia in Galaxies")
+@plugin.commands("acr")
+@plugin.example("!acr LOL, !acr -add:SWaG Survey of Water and Ammonia in Galaxies")
 def acr(bot, trigger):
     """Define an acronym or add a definition"""
 
@@ -63,7 +63,7 @@ def acr(bot, trigger):
         json.dump(db, f, indent=4)
 
 
-@module.rule(r"(\S+)\?")
+@plugin.rule(r"(\S+)\?")
 def get_acr(bot, trigger):
     db = bot.memory["acrs"]
 

@@ -4,7 +4,7 @@ from typing import List, Tuple
 
 import unicodedata2 as unicodedata
 
-from sopel import module
+from sopel import plugin
 
 
 MAX_LEN = 16
@@ -14,7 +14,7 @@ NAME_TO_CODEPOINT.pop('')
 
 
 # TODO: !u:no-latin Brünner Männergesangverein → ü: U+00fc LATIN SMALL LETTER U WITH DIAERESIS
-@module.rule(r"u:search")
+@plugin.commands(r"u:search")
 def search_subcmd(bot, trigger):
     MAX_MATCHES = 10
     NUM_PUBLIC_MATCHES = 2
@@ -61,7 +61,7 @@ def _describe_char(bot, char):
         )
 
 
-@module.commands("u", "unicode")
+@plugin.commands("u", "unicode")
 def unicode_summarize(bot, trigger):
     s = "".join(cmd for cmd in trigger.groups()[2] if cmd)
 
@@ -80,7 +80,7 @@ def unicode_summarize(bot, trigger):
         _describe_char(bot, c)
 
 
-@module.commands("decompose")
+@plugin.commands("decompose")
 def unicode_decompose(bot, trigger):
     bot.say(
         "The !decompose command has been deprecated. Use !NFKD for the old behavior (see also: !NFC, !NFD, !NFKC)"
@@ -88,7 +88,7 @@ def unicode_decompose(bot, trigger):
     return False
 
 
-@module.commands("(NFC|NFD|NFKD|NFKC)")
+@plugin.commands("(NFC|NFD|NFKD|NFKC)")
 def normalized_forms(bot, trigger):
     norm = trigger.groups()[1]
     s = "".join(cmd for cmd in trigger.groups()[2] if cmd)

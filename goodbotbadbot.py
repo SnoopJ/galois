@@ -1,11 +1,11 @@
-from sopel import module
+from sopel import plugin
 
 
-@module.rule(".*bad bot")
+@plugin.rule(".*bad bot")
 def imsorrysenpai(bot, trigger):
     bot.say("=[")
 
 
-@module.rule(".*good bot")
+@plugin.rule(".*good bot")
 def senpainoticedme(bot, trigger):
     bot.say("=]")

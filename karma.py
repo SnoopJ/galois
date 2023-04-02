@@ -1,7 +1,7 @@
 import random
 
 import sopel
-from sopel import module
+from sopel import plugin
 
 
 def setup(bot):
@@ -9,8 +9,8 @@ def setup(bot):
         bot.memory["karma"] = sopel.tools.SopelMemory()
 
 
-@module.require_admin()
-@module.commands("resetkarma")
+@plugin.require_admin()
+@plugin.commands("resetkarma")
 def resetKarma(bot, trigger):
     if trigger.group(2) is not None:
         bot.memory["karma"][trigger.group(2).strip().lower()] = 0
@@ -20,7 +20,7 @@ def resetKarma(bot, trigger):
         bot.reply("Karma for all users has been reset")
 
 
-@module.commands("karma")
+@plugin.commands("karma")
 def getKarma(bot, trigger):
     """ Show karma for a given username """
     if trigger.group(2) is not None:
@@ -33,7 +33,7 @@ def getKarma(bot, trigger):
     bot.reply("%s has %i karma" % (who, bot.memory["karma"].get(whokey, 0)))
 
 
-@module.commands("check")
+@plugin.commands("check")
 def checkKarma(bot, trigger):
     """ Show karma for a given username, but more betterer """
     if trigger.group(2) is not None:
@@ -50,8 +50,8 @@ def checkKarma(bot, trigger):
         bot.reply("kinda sketchy")
 
 
-@module.rule("(\w+)[:,]?\s*(\+\+|--)")
-@module.rate(60)
+@plugin.rule("(\w+)[:,]?\s*(\+\+|--)")
+@plugin.rate(60)
 def addKarma(bot, trigger):
     who = trigger.group(1).strip()
     whokey = who.lower()

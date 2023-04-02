@@ -1,8 +1,8 @@
-from sopel import module
+from sopel import plugin
 
 
-@module.commands("fa", "fahrenheit")
-@module.example("fa 100")
+@plugin.commands("fa", "fahrenheit")
+@plugin.example("fa 100")
 def celsius_to_fahrenheit(bot, trigger):
     """ Convert Celsius to Fahrenheit """
 
@@ -21,8 +21,8 @@ def celsius_to_fahrenheit(bot, trigger):
         )
 
 
-@module.commands("ce", "celsius")
-@module.example("ce 212")
+@plugin.commands("ce", "celsius")
+@plugin.example("ce 212")
 def fahrenheit_to_celsius(bot, trigger):
     """ Convert Fahrenheit to Celsius """
 

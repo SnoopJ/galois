@@ -1,11 +1,11 @@
 import random
 
 import sopel
-from sopel import module
+from sopel import plugin
 
 
-@module.commands("or", "elif", "elseif")
-@module.example("!or A or B or C")
+@plugin.commands("or", "elif", "elseif")
+@plugin.example("!or A or B or C")
 def orfunc(bot, trigger):
     """ Choose from a list of things """
     things = trigger.group(2)

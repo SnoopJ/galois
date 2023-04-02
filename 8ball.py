@@ -1,13 +1,13 @@
 import random
 import re
 
-from sopel import module
+from sopel import plugin
 
 responses = ["yes", "no"]
 
 
-@module.commands("8", "8ball")
-@module.example("!8 is this the real life?")
+@plugin.commands("8", "8ball")
+@plugin.example("!8 is this the real life?")
 def howmany(bot, trigger):
     """ Ask the bot a yes or no question """
     if not trigger.group(2):

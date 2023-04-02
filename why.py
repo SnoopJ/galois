@@ -1,8 +1,8 @@
-from sopel import module
+from sopel import plugin
 
 
-@module.commands("why")
-@module.example("!why do you hate me?")
+@plugin.commands("why", "whynot")
+@plugin.example("!why do you hate me?")
 def why(bot, trigger):
     """ why something """
     bot.reply("because reasons")

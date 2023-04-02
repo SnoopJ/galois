@@ -1,6 +1,6 @@
 import random
 
-from sopel import module
+from sopel import plugin
 
 LBS_PER_KG = 2.2
 
@@ -40,8 +40,8 @@ equiv_weights = [
 ]
 
 
-@module.commands("equiv\D(\d+\.?\d*)\s*(lb[s]?|kg[s]?)\s*")
-@module.example("equiv 200 lb")
+@plugin.commands("equiv\D(\d+\.?\d*)\s*(lb[s]?|kg[s]?)\s*")
+@plugin.example("equiv 200 lb")
 def equiv_weight(bot, trigger):
     """ Give an equivalent of the input weight """
     origweight, weightunit = trigger.groups()[1:3]

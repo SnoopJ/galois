@@ -3,7 +3,7 @@ import json
 import os
 import random
 
-from sopel import module
+from sopel import plugin
 
 
 def setup(self):

@@ -1,10 +1,10 @@
 import subprocess
 
-from sopel import module
+from sopel import plugin
 
 
-@module.commands("factor")
-@module.example("!factor 42, !factor 6.0221409e23")
+@plugin.commands("factor")
+@plugin.example("!factor 42, !factor 6.0221409e23")
 def factor(bot, trigger):
     try:
         # cast to float first to support scientific notation

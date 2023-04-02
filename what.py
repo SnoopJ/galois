@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from sopel import module
+from sopel import plugin
 
 SUBWAY_SANDWICHES = [
     "Sweet Onion Chicken Teriyaki",
@@ -14,7 +14,7 @@ SUBWAY_SANDWICHES = [
 ]
 
 
-@module.commands("what", "wat")
+@plugin.commands("what", "wat")
 def what(bot, trigger):
     if trigger.group(2) and re.match(
         r"is the subway(\s?(.+?)?\s?(sub)? of the day)?", trigger.group(2).lower()

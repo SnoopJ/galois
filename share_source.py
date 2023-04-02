@@ -1,6 +1,6 @@
-from sopel import module
+from sopel import plugin
 
 
-@module.commands("source")
+@plugin.commands("source")
 def share_source(bot, trigger):
     bot.say("Hack the planet ✊: https://github.com/SnoopJeDi/galois")

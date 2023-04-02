@@ -1,12 +1,12 @@
-from sopel import module
+from sopel import plugin
 
 LBS_PER_KG = 2.2
 M_PER_INCH = 2.54e-2
 INCH_PER_FEET = 12
 
 
-@module.commands("cm\s+(\d+)'(\d+\"?)?")
-@module.example("cm 5'11\"")
+@plugin.commands("cm\s+(\d+)'(\d+\"?)?")
+@plugin.example("cm 5'11\"")
 def feet_to_cm(bot, trigger):
     """ Convert imperial height to metric """
     feet = int(trigger.group(2))
@@ -20,8 +20,8 @@ def feet_to_cm(bot, trigger):
     bot.reply("{:d}'{:d}\" is {:d} cm".format(feet, inches, cm))
 
 
-@module.commands("kgs?\s+(\d+(.\d+)?)(\s*lbs?)?")
-@module.example("kg 200lb")
+@plugin.commands("kgs?\s+(\d+(.\d+)?)(\s*lbs?)?")
+@plugin.example("kg 200lb")
 def kgtolb(bot, trigger):
     """ Convert lbs to kg """
     weight = trigger.group(2)
@@ -32,8 +32,8 @@ def kgtolb(bot, trigger):
     bot.reply("%.1f lbs is %.1f kg" % (lbs, kg))
 
 
-@module.commands("lbs?\s+(\d+(.\d+)?)(\s*kgs?)?")
-@module.example("lb 200 kg")
+@plugin.commands("lbs?\s+(\d+(.\d+)?)(\s*kgs?)?")
+@plugin.example("lb 200 kg")
 def lbtokg(bot, trigger):
     """ Convert kg to lbs """
     weight = trigger.group(2)

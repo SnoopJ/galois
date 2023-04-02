@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import lxml.html
 import requests
 import sopel
-from sopel import module
+from sopel import plugin
 
 # based on RFC 1808 https://www.w3.org/Addressing/rfc1808.txt
 # courtesy of http://www.noah.org/wiki/RegEx_Python#URL_regex_pattern
@@ -53,8 +53,8 @@ def defer_to(*nicks):
     return defer_decorator
 
 
-@module.rate(1)
-@module.rule(".*({re})".format(re=URL_REGEX))
+@plugin.rate(1)
+@plugin.rule(".*({re})".format(re=URL_REGEX))
 @defer_to("kmath")
 def get_title(bot, trigger):
     """ Get the title of the page referred to by a chat message URL """

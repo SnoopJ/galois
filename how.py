@@ -1,10 +1,11 @@
 import random
 
-from sopel import module
+
+from sopel import plugin
 
 
-@module.commands("how(\s?many|\s?much)?")
-@module.example("!how much spam")
+@plugin.commands("how(\s?many|\s?much)?")
+@plugin.example("!how much spam")
 def howmany(bot, trigger):
     """ Ask how many/how much of something """
     thing = trigger.group(3)

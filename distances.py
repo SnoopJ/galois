@@ -1,10 +1,10 @@
-from sopel import module
+from sopel import plugin
 
 KM_PER_MILE = 1.60934
 
 
-@module.commands("km")
-@module.example("km 26.2")
+@plugin.commands("km")
+@plugin.example("km 26.2")
 def miles_to_km(bot, trigger):
     """ Convert miles to km """
 
@@ -20,8 +20,8 @@ def miles_to_km(bot, trigger):
         bot.reply("%.1f miles is equal to %.1f km" % (miles, miles * KM_PER_MILE))
 
 
-@module.commands("mi")
-@module.example("mi 5")
+@plugin.commands("mi")
+@plugin.example("mi 5")
 def km_to_miles(bot, trigger):
     """ Convert km to miles """
 
