@@ -2,9 +2,10 @@ import itertools
 import sys
 from typing import List, Tuple
 
-import unicodedata2 as unicodedata
-
 from sopel import plugin
+
+import unicodedata2 as unicodedata
+from sopel_subcmd import dispatch_subcmd, parse_subcmd  # https://git.snoopj.dev/SnoopJ/sopel-subcmd
 
 
 MAX_LEN = 16
@@ -13,16 +14,27 @@ NAME_TO_CODEPOINT = {unicodedata.name(chr(n), ''): n for n in range(sys.maxunico
 NAME_TO_CODEPOINT.pop('')
 
 
-@plugin.commands(r"u:search")
-def search_subcmd(bot, trigger):
+def _describe_char(char: str) -> str:
+    codept = ord(char)
+    try:
+        import unicode_age  # https://pypi.org/project/unicode-age/
+        major, minor = unicode_age.version(codept)
+        ver_str = f"v{major}.{minor} "
+    except:
+        ver_str = ""
+
+    try:
+        return f"{char}: U+{codept:0>4x} {ver_str}({unicodedata.category(char)}) {unicodedata.name(char)}"
+    except ValueError:
+        return f"No info for U+{codept:0>4x} in Unicode {unicodedata.unidata_version}"
+
+
+def u_search(bot, trigger, query):
     MAX_MATCHES = 10
     NUM_PUBLIC_MATCHES = 2
 
-    cmd, *rest = trigger.groups()[1:]
-    query = " ".join(word for word in rest if word)
     is_channel = trigger.sender and not trigger.sender.is_nick()
 
-    # TODO: is it silly to recombine the query above, then split() it again? it might be silly.
     matches = [(name, codepoint) for (name, codepoint) in NAME_TO_CODEPOINT.items() if all(term.casefold() in name.casefold() for term in query.split())]
     N_match = len(matches)
     if N_match == 0:
@@ -51,34 +63,26 @@ def search_subcmd(bot, trigger):
             _say_matches(matches, dest=trigger.nick)
 
 
-def _describe_char(char: str) -> str:
-    codept = ord(char)
-    try:
-        import unicode_age  # https://pypi.org/project/unicode-age/
-        major, minor = unicode_age.version(codept)
-        ver_str = f"v{major}.{minor} "
-    except:
-        ver_str = ""
+def u_noascii(bot, trigger, chars):
+    s = "".join(c for c in chars if ord(c) not in range(128))
 
-    try:
-        return f"{char}: U+{codept:0>4x} {ver_str}({unicodedata.category(char)}) {unicodedata.name(char)}"
-    except ValueError:
-        return f"No info for U+{codept:0>4x} in Unicode {unicodedata.unidata_version}"
+    for c in s:
+        msg = _describe_char(c)
+        bot.say(msg)
 
 
-@plugin.commands("u(:no-ascii)?")
+@plugin.commands("u", "u:search", "u:noascii")
 def unicode_summarize(bot, trigger):
     s = trigger.group(3)
-
-    no_ascii = trigger.group(2) is not None
-    if no_ascii:
-        s = "".join(c for c in s if ord(c) not in range(128))
 
     prefix, rest = s[:2].lower(), s[2:]
     if prefix in ("u+", "0x", r"\u"):
         codept = int(rest.strip(), base=16)
         msg = _describe_char(chr(codept))
         bot.say(msg)
+        return True
+
+    if dispatch_subcmd(bot, trigger, s):
         return True
 
     len_overrides = {"#kspacademia"}
