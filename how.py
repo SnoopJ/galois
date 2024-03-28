@@ -50,7 +50,7 @@ def howmany(bot, trigger):
     if thing_grp is None:
         thing = ""
     # special case: !how many are [whatever predicate]?
-    elif thing_grp.startswith("are "):
+    elif thing_grp == ("are"):
         bot.reply(str(qty))
         return
     else:
