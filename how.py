@@ -29,12 +29,15 @@ def _maybe_pluralize(thing: str) -> str:
         return plural
 
 
-@plugin.example("!how much spam")
-@plugin.command("how")
-def howmany(bot, trigger):
-    """ Ask how many/how much of something """
+def _thing_grp(trigger):
+    if not trigger.group(2):
+        return None
+
     HOW_PATT = r"(\s?many|\s?much)?(\s*(?P<thing>\S+))?"
     m = re.match(HOW_PATT, trigger.group(2))
+
+    if not m:
+        return None
 
     thing_grp = m.group('thing')
     if thing_grp:
@@ -42,7 +45,18 @@ def howmany(bot, trigger):
     else:
         thing_grp = None
 
+    return thing_grp
+
+
+@plugin.example("!how much spam")
+@plugin.command("how")
+def howmany(bot, trigger):
+    """ Ask how many/how much of something """
+
     qty = random.randint(0, 1000)
+
+    thing_grp = _thing_grp(trigger)
+
     if thing_grp is None:
         thing = ""
     # special case: !how many are [whatever predicate]?
