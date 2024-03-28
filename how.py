@@ -6,12 +6,6 @@ from textblob import Word
 from sopel import plugin
 
 
-def howmany_rule(settings):
-    prefix = settings.core.prefix
-    return [re.compile(rf"{prefix}how(\s?many|\s?much)?(\s*(?P<thing>\S+))?")]
-
-
-
 CUSTOM_PLURALIZATIONS = {
     "🎵": "🎶",
     "🏠": "🏘️",
@@ -36,11 +30,14 @@ def _maybe_pluralize(thing: str) -> str:
         return plural
 
 
-@plugin.rule_lazy(howmany_rule)
 @plugin.example("!how much spam")
+@plugin.command("how")
 def howmany(bot, trigger):
     """ Ask how many/how much of something """
-    thing_grp = trigger.group('thing')
+    HOW_PATT = r"(\s?many|\s?much)?(\s*(?P<thing>\S+))?"
+    m = re.match(HOW_PATT, trigger.group(2))
+
+    thing_grp = m.group('thing')
     if thing_grp:
         thing_grp = thing_grp.strip()
     else:
