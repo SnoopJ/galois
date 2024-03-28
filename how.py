@@ -14,7 +14,6 @@ CUSTOM_PLURALIZATIONS = {
 
 def _maybe_pluralize(thing: str) -> str:
     custom_plural = CUSTOM_PLURALIZATIONS.get(thing)
-    import q; q.q(thing, custom_plural)
     if custom_plural is not None:
         plural = custom_plural
     else:
