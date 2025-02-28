@@ -75,7 +75,7 @@ def howmany(bot, trigger):
 
 
 いくら = ["いくら", "幾ら", "ikura"]
-誰ほど = ["だれほど", "誰ほど", "darehodo"]
+どれ程 = ["どれほど", "どれ程", "dorehodo"]
 どんなに = ["どんなに", "donnani"]
 
 助数詞 = [
@@ -85,7 +85,7 @@ def howmany(bot, trigger):
 ]
 
 @plugin.example("!how:jp much spam")
-@plugin.command("how:jp", *いくら, *誰ほど, *どんなに)
+@plugin.command("how:jp", *いくら, *どれ程, *どんなに)
 def howmany_jp(bot, trigger):
     """
     質問は「番号何ですか？」
