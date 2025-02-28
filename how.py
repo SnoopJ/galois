@@ -72,3 +72,28 @@ def howmany(bot, trigger):
         thing = " " + thing
 
     bot.reply(f"{qty}{thing}")
+
+
+いくら = ["いくら", "幾ら", "ikura"]
+誰ほど = ["だれほど", "誰ほど", "darehodo"]
+どんなに = ["どんなに", "donnani"]
+
+助数詞 = [
+    "つ",
+    "番目",
+    "羽"
+]
+
+@plugin.example("!how:jp much spam")
+@plugin.command("how:jp", *いくら, *誰ほど, *どんなに)
+def howmany_jp(bot, trigger):
+    """
+    質問は「番号何ですか？」
+
+    Ask how many/how much of something
+    """
+
+    qty = random.randint(0, 1000)
+    counter = random.choice(助数詞)
+
+    bot.reply(f"{qty}{counter}")
